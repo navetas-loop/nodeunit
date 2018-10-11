@@ -1,18 +1,38 @@
 Nodeunit
 ========
 
+[![Build Status](https://travis-ci.org/caolan/nodeunit.svg?branch=master)](https://travis-ci.org/caolan/nodeunit)
+
 Simple syntax, powerful tools. Nodeunit provides easy async unit testing for
 node.js and the browser.
 
+
+DEPRECATED PROJECT
+-----
+
+The project is very stale. We've kept it working on new versions of node, and sometimes merged small PRs that help teams relying on nodeunit.
+
+Nodeunit was the arguably first testing framework developed for node. It was very useful at the time, but there's an overwhelming number
+of other worthwhile testing solutions out there that are actively maintained. tap, ava, tape, mocha, jasmine, jest, ... the list goes on and on.
+
+If Nodeunit were truly bringing some different philosophy to the testing scene I'd say yes effort should be made to shore up it's development,
+but given how many other great options there are out there, a benefit of letting it atrophy is it's one less choice people have to make when
+choosing a testing solution.  *You are strongly encouraged to check out other more modern testing options.*
+
+
+Features
+--------
+
 * Simple to use
 * Just export the tests from a module
-* Works with node.js and in the browser.
+* Works with node.js and in the browser
 * Helps you avoid common pitfalls when testing asynchronous code
 * Easy to add test cases with setUp and tearDown functions if you wish
 * Flexible reporters for custom output, built-in support for HTML and jUnit XML
 * Allows the use of mocks and stubs
 
-__Contributors__
+Contributors
+------------
 
 * [alexgorbatchev](https://github.com/alexgorbatchev)
 * [alexkwolfe](https://github.com/alexkwolfe)
@@ -41,13 +61,13 @@ Usage
 
 Here is an example unit test module:
 
-    exports.testSomething = function(test){
+    exports.testSomething = function(test) {
         test.expect(1);
         test.ok(true, "this assertion should pass");
         test.done();
     };
 
-    exports.testSomethingElse = function(test){
+    exports.testSomethingElse = function(test) {
         test.ok(false, "this assertion should fail");
         test.done();
     };
@@ -68,7 +88,7 @@ There are two options for installing nodeunit:
 
 2. Install via npm:
 
-    npm install nodeunit
+    npm install nodeunit -g
 
 API Documentation
 -----------------
@@ -109,10 +129,10 @@ the API where possible, to make it easier to digest.
 Tests are simply exported from a module, but they are still run in the order
 they are defined.
 
-__Note:__ Users of old nodeunit versions may remember using ok, equals and same
-in the style of qunit, instead of the assert functions above. These functions
-still exist for backwards compatibility, and are simply aliases to their assert
-module counterparts.
+__Note:__ Users of old nodeunit versions may remember using `ok`, `equals` and
+`same` in the style of qunit, instead of the assert functions above. These
+functions still exist for backwards compatibility, and are simply aliases to
+their assert module counterparts.
 
 
 Asynchronous Testing
@@ -133,8 +153,8 @@ and stubbing is pretty much impossible. One of the nicest things about testing
 in javascript is the ease of doing stubs:
 
     var _readFile = fs.readFile;
-    fs.readFile = function(path, callback){
-        // its a stub!
+    fs.readFile = function(path, callback) {
+        // it's a stub!
     };
     // test function that uses fs.readFile
 
@@ -148,13 +168,13 @@ fast anyway.
 
 ### Explicit ending of tests
 
-When testing async code its important that tests end at the correct point, not
+When testing async code it's important that tests end at the correct point, not
 just after a given number of assertions. Otherwise your tests can run short,
-ending before all assertions have completed. Its important to detect too
+ending before all assertions have completed. It's important to detect too
 many assertions as well as too few. Combining explicit ending of tests with
 an expected number of assertions helps to avoid false test passes, so be sure
-to use the test.expect() method at the start of your test functions, and
-test.done() when finished.
+to use the `test.expect()` method at the start of your test functions, and
+`test.done()` when finished.
 
 
 Groups, setUp and tearDown
@@ -200,7 +220,7 @@ calls `test.done()`:
         }
     };
 
-In this way, its possible to have multiple groups of tests in a module, each
+In this way, it's possible to have multiple groups of tests in a module, each
 group with its own setUp and tearDown functions.
 
 
@@ -208,9 +228,11 @@ Running Tests
 -------------
 
 Nodeunit comes with a basic command-line test runner, which can be installed
-using 'sudo make install'. Example usage:
+using `sudo make install`. Example usage:
 
     nodeunit testmodule1.js testfolder [...]
+
+If no entry file specified, `test` defaults.
 
 The default test reporter uses color output, because I think that's more fun :) I
 intend to add a no-color option in future. To give you a feeling of the fun you'll
@@ -221,7 +243,7 @@ be having writing tests, lets fix the example at the start of the README:
 Ahhh, Doesn't that feel better?
 
 When using the included test runner, it will exit using the failed number of
-assertions as the exit code. Exiting with 0 when all tests pass.
+assertions as the exit code.  This means it exits with 0 when all tests pass.
 
 
 ### Command-line Options
@@ -229,10 +251,12 @@ assertions as the exit code. Exiting with 0 when all tests pass.
 * __--reporter FILE__ - you can set the test reporter to a custom module or
 on of the modules in nodeunit/lib/reporters, when omitted, the default test runner
 is used.
-* __--list-reporters__ - list available build-in reporters.
+* __--list-reporters__ - list available built-in reporters.
 * __--config FILE__ - load config options from a JSON file, allows
 the customisation of color schemes for the default test reporter etc. See
 bin/nodeunit.json for current available options.
+* __-t testName__ - run specific test only.
+* __-f fullTestName__ - run specific test only. fullTestName is built so: "outerGroup - .. - innerGroup - testName".
 * __--version__ or __-v__ - report nodeunit version
 * __--help__ - show nodeunit help
 
@@ -264,8 +288,8 @@ __test.html__
       </body>
     </html>
 
-Here, suite1 and suite2 are just object literals containing test functions or
-groups, as would be returned if you did require('test-suite') in node.js:
+Here, `suite1` and `suite2` are just object literals containing test functions
+or groups, as would be returned if you did `require('test-suite')` in node.js:
 
 __suite1.js__
 
@@ -278,13 +302,13 @@ __suite1.js__
 
 If you wish to use a commonjs format for your test suites (using exports), it is
 up to you to define the commonjs tools for the browser. There are a number of
-alternatives and its important it fits with your existing code, which is
+alternatives and it's important it fits with your existing code, which is
 why nodeunit does not currently provide this out of the box.
 
 In the example above, the tests will run when the page is loaded.
 
-The browser-version of nodeunit.js is created in dist/browser when you do, 'make
-browser'. You'll need [UglifyJS](https://github.com/mishoo/UglifyJS) installed in
+The browser-version of nodeunit.js is created in dist/browser when you do, `make
+browser`. You'll need [UglifyJS](https://github.com/mishoo/UglifyJS) installed in
 order for it to automatically create nodeunit.min.js.
 
 
@@ -314,7 +338,7 @@ cloning the repository, nodeunit can be downloaded by doing the following:
     git submodule update
 
 Let's update the test script above with a helpful hint on how to get nodeunit,
-if its missing:
+if it's missing:
 
     #!/usr/bin/env node
     try {
@@ -345,8 +369,8 @@ Built-in Test Reporters
 * __html__ - Outputs a HTML report to stdout
 * __junit__ - Creates jUnit compatible XML reports, which can be used with
   continuous integration tools such as [Hudson](http://hudson-ci.org/).
-* __machineout__ - Simple reporter for machine analysis. There is [nodeunit.vim](https://github.com/lambdalisue/nodeunit.vim)
-  which is useful for TDD on VIM
+* __machineout__ - Simple reporter for machine analysis. There is
+  [nodeunit.vim](https://github.com/lambdalisue/nodeunit.vim) which is useful for TDD on VIM.
 
 
 Writing a Test Reporter
@@ -363,6 +387,7 @@ callbacks:
   module have completed (see assertions object reference below)
   ALL tests within the module
 * __testStart(name)__ - called before a test function is run
+* __testReady(test)__ - called before a test function is run with the test object that will be passed to the test function
 * __testDone(name, assertions)__ - called once a test function has completed
   (by calling test.done())
 * __log(assertion)__ - called whenever an assertion is made (see assertion
@@ -411,7 +436,7 @@ context when setting up the sandbox.
     var box_globals = {
         // Passing module.exports into the sandbox will give your code  access to it.
         module: {exports: exports},
-        // Passing require into the sandbox will give your code  access to use it AND 
+        // Passing require into the sandbox will give your code  access to use it AND
         // will share the cache with modules already required from outside the sandbox.
         require: require,
         // Passing console into the sandbox will give your code access to it
@@ -439,22 +464,25 @@ to v0.2.1 fixes this.
 __machineout__ reporter
 ----------------------------------------------
 
-The default reporter is really readable for human but for machinally analysis. 
+The default reporter is readable for human but not for machine analysis.
 When you want to analyze the output of nodeunit, use __machineout__ reporter and you will get
 
 <img src="https://github.com/caolan/nodeunit/raw/master/img/example_machineout.png" />
 
 
 nodeunit with vim
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-There is [nodeunit.vim](https://github.com/lambdalisue/nodeunit.vim) so you can use nodeunit with VIM.
-That compiler use __machineout__ reporter and it is useful to use with [vim-makegreen](https://github.com/reinh/vim-makegreen)
+----------------------------------
+There is [nodeunit.vim](https://github.com/lambdalisue/nodeunit.vim) so you can use
+nodeunit with VIM.
 
-    
+That compiler uses __machineout__ reporter and it is useful to use
+with [vim-makegreen](https://github.com/reinh/vim-makegreen).
+
+
 
 Contributing
 ------------
 
 Contributions to the project are most welcome, so feel free to fork and improve.
-When submitting a pull request, please run 'make lint' first to ensure
+When submitting a pull request, please run `make lint` first to ensure
 we're following a consistent coding style.
